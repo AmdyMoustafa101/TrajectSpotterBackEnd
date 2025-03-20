@@ -1,4 +1,3 @@
-# traject/models.py
 from djongo import models
 from django.db.models import Sum
 from datetime import timedelta
@@ -18,9 +17,16 @@ class JournalELD(models.Model):
     trajet = models.ForeignKey(Trajet, on_delete=models.CASCADE)
     heure_debut = models.DateTimeField()
     heure_fin = models.DateTimeField(null=True, blank=True)
-    duree_pause = models.IntegerField(default=0)
     heures_conduite = models.FloatField(default=0)
-    pause_start = models.DateTimeField(null=True, blank=True)  # Ajouter ce champ
+    sleep_start = models.DateTimeField(null=True, blank=True)
+    sleep_end = models.DateTimeField(null=True, blank=True)
+    sleep_duration = models.FloatField(default=0)
+    onduty_start = models.DateTimeField(null=True, blank=True)
+    onduty_end = models.DateTimeField(null=True, blank=True)
+    onduty_duration = models.FloatField(default=0)
+    offduty_start = models.DateTimeField(null=True, blank=True)
+    offduty_end = models.DateTimeField(null=True, blank=True)
+    offduty_duration = models.FloatField(default=0)
 
     def __str__(self):
         return f"Journal for {self.trajet}"
