@@ -150,3 +150,47 @@ def end_offduty(request, trajet_id):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+
+@csrf_exempt
+def get_resume(request, trajet_id):
+    if request.method == 'GET':
+        try:
+            trajet = Trajet.objects.get(id=trajet_id)
+            journal = JournalELD.objects.get(trajet=trajet)
+
+            # Exemple de données formatées pour le graphique
+            data = []
+
+            if journal.offduty_duration > 0:
+                data.append({
+                    'type': 'off',
+                    'start': journal.offduty_start.hour,
+                    'duration': journal.offduty_duration
+                })
+
+            if journal.sleep_duration > 0:
+                data.append({
+                    'type': 'sleep',
+                    'start': journal.sleep_start.hour,
+                    'duration': journal.sleep_duration
+                })
+
+            if journal.heures_conduite > 0:
+                data.append({
+                    'type': 'driving',
+                    'start': journal.heure_debut.hour,
+                    'duration': journal.heures_conduite
+                })
+
+            if journal.onduty_duration > 0:
+                data.append({
+                    'type': 'on',
+                    'start': journal.onduty_start.hour,
+                    'duration': journal.onduty_duration
+                })
+
+            return JsonResponse(data, safe=False)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)

@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     create_trajet, start_trajet, end_trajet,
     start_sleep, end_sleep, start_onduty, end_onduty,
-    start_offduty, end_offduty
+    start_offduty, end_offduty, get_resume
 )
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('trajets/<str:trajet_id>/end-onduty/', end_onduty, name='end_onduty'),
     path('trajets/<str:trajet_id>/start-offduty/', start_offduty, name='start_offduty'),
     path('trajets/<str:trajet_id>/end-offduty/', end_offduty, name='end_offduty'),
+    path('trajets/<str:trajet_id>/resume/', get_resume, name='get_resume'),
 ]
