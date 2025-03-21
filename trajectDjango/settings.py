@@ -36,7 +36,8 @@ ALLOWED_HOSTS = [
 
 # trajectDjango/settings.py
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  
+    "http://localhost:3000",
+    "https://trajectspotterfrontend.onrender.com"  
 ]
 
 
