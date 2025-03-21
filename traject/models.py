@@ -3,30 +3,30 @@ from django.db.models import Sum
 from datetime import timedelta
 from django.utils import timezone
 
-class Trajet(models.Model):
-    emplacement_actuel = models.CharField(max_length=255)
-    lieu_prise_en_charge = models.CharField(max_length=255)
-    lieu_depot = models.CharField(max_length=255)
-    cycle_actuel = models.IntegerField()
-    distance_parcourue = models.FloatField(default=0)  # Distance parcourue en miles
+class Trip(models.Model):
+    current_location = models.CharField(max_length=255)  # Current location of the driver
+    pickup_location = models.CharField(max_length=255)  # Location where the load is picked up
+    dropoff_location = models.CharField(max_length=255)  # Location where the load is dropped off
+    current_cycle = models.IntegerField()  # Current driving cycle (e.g., 1, 2, etc.)
+    distance_traveled = models.FloatField(default=0)  # Distance traveled in miles
 
     def __str__(self):
-        return f"Trajet from {self.emplacement_actuel} to {self.lieu_depot}"
+        return f"Trip from {self.current_location} to {self.dropoff_location}"
 
-class JournalELD(models.Model):
-    trajet = models.ForeignKey(Trajet, on_delete=models.CASCADE)
-    heure_debut = models.DateTimeField()
-    heure_fin = models.DateTimeField(null=True, blank=True)
-    heures_conduite = models.FloatField(default=0)
-    sleep_start = models.DateTimeField(null=True, blank=True)
-    sleep_end = models.DateTimeField(null=True, blank=True)
-    sleep_duration = models.FloatField(default=0)
-    onduty_start = models.DateTimeField(null=True, blank=True)
-    onduty_end = models.DateTimeField(null=True, blank=True)
-    onduty_duration = models.FloatField(default=0)
-    offduty_start = models.DateTimeField(null=True, blank=True)
-    offduty_end = models.DateTimeField(null=True, blank=True)
-    offduty_duration = models.FloatField(default=0)
+class ELDLog(models.Model):
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)  # Associated trip
+    start_time = models.DateTimeField()  # Start time of the log
+    end_time = models.DateTimeField(null=True, blank=True)  # End time of the log
+    driving_hours = models.FloatField(default=0)  # Total driving hours
+    sleep_start = models.DateTimeField(null=True, blank=True)  # Start time of sleep
+    sleep_end = models.DateTimeField(null=True, blank=True)  # End time of sleep
+    sleep_duration = models.FloatField(default=0)  # Total sleep duration in hours
+    onduty_start = models.DateTimeField(null=True, blank=True)  # Start time of on-duty
+    onduty_end = models.DateTimeField(null=True, blank=True)  # End time of on-duty
+    onduty_duration = models.FloatField(default=0)  # Total on-duty duration in hours
+    offduty_start = models.DateTimeField(null=True, blank=True)  # Start time of off-duty
+    offduty_end = models.DateTimeField(null=True, blank=True)  # End time of off-duty
+    offduty_duration = models.FloatField(default=0)  # Total off-duty duration in hours
 
     def __str__(self):
-        return f"Journal for {self.trajet}"
+        return f"ELD Log for {self.trip}"
