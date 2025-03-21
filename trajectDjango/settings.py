@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 import django_mongodb_backend
 
 from pathlib import Path
@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-2-(z09cb_b#%7g%fh(dtf$$9^gvq0yo-avks!wqs-x2e$45&(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'trajectspotterbackend.onrender.com', 
+]
 
 
 # trajectDjango/settings.py
